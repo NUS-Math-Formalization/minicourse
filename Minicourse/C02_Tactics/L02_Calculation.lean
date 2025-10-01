@@ -13,7 +13,8 @@ Main goal in this file is to prove the `gaokao_triangle` theorem
 Given cos(α+β)=m, tan(α)tan(β)=2, show that cos(α-β)=-3m
 -/
 import Mathlib.Analysis.RCLike.Basic
-import Mathlib.Data.Complex.Trigonometric
+import Mathlib.Analysis.Complex.Trigonometric
+import Reap
 
 open Real
 
@@ -70,7 +71,7 @@ by an `instance`, we will explain this in later lectures. -/
 #synth CommRing ℝ
 #synth Field ℝ
 #synth GroupWithZero ℝ
-#synth LinearOrderedField ℝ
+-- #synth LinearOrderedField ℝ
 
 /- Explore some lemmas about relations/orders -/
 #check rfl
@@ -138,7 +139,7 @@ lemma div_eq_of_eq_mul₀' {a b c : ℝ} (h : b ≠ 0) : a / b = c → a = c * b
   intro h₁
   -- rw [div_eq_iff h] at h₁
   field_simp at h₁
-  exact h₁
+  linear_combination h₁
 
 #leansearch "cos (a+b)"
 -- #leansearch "cos (a-b)"

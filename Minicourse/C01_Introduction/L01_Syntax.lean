@@ -54,7 +54,7 @@ def set_A : Set ℕ := {1, 2}
 def set_B : Set ℕ := {2, 3}
 #check set_A ∪ set_B
 #check set_A ∩ set_B
-#eval finset_A ∪ finset_B
+-- #eval finset_A ∪ finset_B
 def list_two : List ℕ := [1, 2]
 #eval list_two
 -- #eval set_two -- This will not work.

@@ -4,6 +4,7 @@ logic structure, starting from logical connectors and quantifiers.
 -/
 import Mathlib.Analysis.Normed.Field.Basic
 import Mathlib.Data.Real.StarOrdered
+import Reap
 
 /- The classical definitiion of limit in `ε-δ` language. -/
 def epsilon_delta_limit (f : ℝ → ℝ) (l : ℝ) (a : ℝ) : Prop :=
@@ -23,11 +24,8 @@ def epsilon_delta_limit_inf (f : ℝ → ℝ) (l : ℝ) : Prop :=
 - `h : x ∨ y` in context: `cases' h with h₁ h₂`
 -/
 example : x < |y| → x < y ∨ x < -y := by
-  cases' le_or_gt 0 y with h₁ h₂
-  · rw [abs_of_nonneg h₁]
-    intro h; left; exact h
-  · rw [abs_of_neg h₂]
-    intro h; right; exact h
+  intro a
+  exact lt_abs.1 a
 
 /-
 ## Deal with Universal Quatifier
@@ -193,13 +191,14 @@ def fac : ℕ → ℕ
   | n + 1 => (n + 1) * fac n
 
 theorem fac_pos (n : ℕ) : fac n > 0 := by
-  induction' n with k hk
-  · dsimp [fac]; simp
-  dsimp [fac]; simp; exact hk
+  induction n with
+  | zero => dsimp [fac]; simp
+  | succ hk hkk => dsimp [fac]; simp; exact hkk
 
 theorem sum_of_id' (n : ℕ) : ∑ i ∈ Finset.range n, i = n * (n - 1) / 2 := by
-  induction' n with k hk
-  · simp
+  induction n with
+  | zero => simp
+  | succ k hk =>
   rw [Finset.sum_range_succ]
   rw [hk]
   rw [add_comm _ k, ← Nat.mul_add_div, mul_comm 2 k, ← left_distrib]
@@ -213,7 +212,8 @@ theorem sum_of_id' (n : ℕ) : ∑ i ∈ Finset.range n, i = n * (n - 1) / 2 := 
 /- A much easier approach from Mathlib -/
 theorem sum_id (n : ℕ) : ∑ i ∈ Finset.range (n + 1), i = n * (n + 1) / 2 := by
   symm; apply Nat.div_eq_of_eq_mul_right (by norm_num : 0 < 2)
-  induction' n with n ih
-  · simp
-  rw [Finset.sum_range_succ, mul_add 2, ← ih]
+  induction n with
+  | zero => simp
+  | succ k hk =>
+  rw [Finset.sum_range_succ, mul_add 2, ← hk]
   ring

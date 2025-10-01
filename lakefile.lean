@@ -8,10 +8,9 @@ package "lean_minicourse" where
   ]
   -- add any additional package configuration options here
 
-require "leanprover-community" / "mathlib" @ git "v4.16.0"
--- require reaper_tac from git "https://github.com/slashbade/reaper_tac.git"
--- require Paperproof from git "https://github.com/Paper-Proof/paperproof.git"@"main"/"lean"
--- require reaper_tac from git "../reaper_tac"
+require "reap" from git "https://github.com/frenzymath/reap.git" @ "feature/search"
+require "leanprover-community" / "mathlib" @ "v4.24.0-rc1"
+
 @[default_target]
 lean_lib «Minicourse» where
   -- add any library configuration options here
